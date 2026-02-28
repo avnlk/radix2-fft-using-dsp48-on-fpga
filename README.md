@@ -31,6 +31,9 @@ We can implement the 128-point (N-point) FFT by dividing it into two smaller FFT
 
 ### Approach – Multiplexing of the DSPs
 
+- **Block Diagram of FFT Implementation**
+ ![](https://github.com/user-attachments/assets/f9f9697b-f8b4-4382-a181-2181a237a219)
+
 To address the resource limitations, we arrived at a solution to maximize DSP usage in each stage and then reuse them for subsequent stages (multiplexing of DSPs). We identified that an 8-point FFT requires 48 DSPs, making it the largest stage feasible to implement at once on Basys3. Thus, a 16-point FFT can be implemented as two 8-point FFT stages, with their outputs passed through butterfly operations to obtain the final results. Similarly, 32-point, 64-point, and 128-point FFTs can be implemented in this staged manner.
 
 For a 16-point FFT, we divide it into two 8-point FFT stages, but we initiate only one 8-point FFT. Once the first FFT completes, a done signal triggers the change of inputs needed for the second FFT. After the second FFT sends its done signal, we perform butterfly operations on the corresponding outputs to obtain the final results. This process is applied to 32-point, 64-point, and 128-point FFTs, with each divided into two stages and finalized through butterfly operations on their outputs to produce correct results.
@@ -56,8 +59,6 @@ Relative Errors arise due to difference in precision as Python uses Floating Poi
 
 Here are some visuals that illustrate our design and results:
 
-- **Block Diagram of FFT Implementation**
- ![](https://github.com/user-attachments/assets/f9f9697b-f8b4-4382-a181-2181a237a219)
 - **Resource Utilization Report**
  ![](https://github.com/user-attachments/assets/3239d428-f4bc-4b05-8d87-6b158317a092)
 - **Timing Analysis Diagram**
